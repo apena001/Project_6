@@ -176,3 +176,41 @@ Start Apache
 
 ![Alt text](Images/wordpress%20xtra.png)
 
+## Configure SELinux Policies
+  `sudo chown -R apache:apache /var/www/html/wordpress`
+  `sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R`
+  `sudo setsebool -P httpd_can_network_connect=1`
+
+  ### Step 4 — Install MySQL on your DB Server EC2
+
+  `sudo yum update`
+   `sudo yum install mysql-server`
+
+   ### tep 5 — Configure DB to work with WordPress
+
+   `sudo mysql`
+CREATE DATABASE wordpress;
+CREATE USER `myuser`@`<Web-Server-Private-IP-Address>` IDENTIFIED BY 'mypass';
+GRANT ALL ON wordpress.* TO 'myuser'@'<Web-Server-Private-IP-Address>';
+FLUSH PRIVILEGES;
+SHOW DATABASES;
+exit
+
+### Step 6 — Configure WordPress to connect to remote database.
+Hint: Do not forget to open MySQL port 3306 on DB Server EC2. For extra security, you shall allow access to the DB server ONLY from your Web Server’s IP address, so in the Inbound Rule configuration specify source as /32
+
+## Install MySQL client and test that you can connect from your Web Server to your DB server by using mysql-client
+`sudo yum install mysql`
+`sudo mysql -h 172.31.16.236 -u wordpress -p`
+
+![Alt text](Images/showindatabase.png)
+
+## Change permissions and configuration so Apache could use WordPress
+
+## Enable TCP port 80 in Inbound Rules configuration for your Web Server EC2 (enable from everywhere 0.0.0.0/0 or from your workstation’s IP)
+
+## Try to access from your browser the link to your WordPress
+
+![Alt text](Images/wordpresshome.png)
+
+![Alt text](Images/welcomeWordpress.png)
