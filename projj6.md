@@ -216,3 +216,5 @@ Hint: Do not forget to open MySQL port 3306 on DB Server EC2. For extra security
 ![Alt text](Images/welcomeWordpress.png)
 
 The End
+ 
+Bye
